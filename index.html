@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f0e0c">
+<title>Elders Quorum Discussion</title>
+<meta name="description" content="A review of five Sunday School lessons.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f0e0c;--paper:#17150f;--ink:#ebe5d8;--muted:#978e7f;--faint:#3a362f;--gold:#c8a862;--water:#86a3b8}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Cormorant Garamond',Georgia,serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+section{min-height:100svh;padding:80px 22px;display:flex;flex-direction:column;justify-content:center;max-width:560px;margin:0 auto;position:relative}
+.label{font-family:Inter,system-ui,sans-serif;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.num{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--gold);letter-spacing:.3em}
+h1{font-weight:400;font-size:clamp(46px,13vw,76px);line-height:.95;letter-spacing:-.01em}
+h2{font-weight:400;font-size:clamp(34px,9.5vw,46px);line-height:1.06;margin:12px 0 14px}
+.lede{font-size:20px;line-height:1.5}
+.ref{font-family:Inter,system-ui,sans-serif;font-size:12px;color:var(--muted);margin-top:14px;letter-spacing:.04em}
+.ref i{font-family:'Cormorant Garamond',serif;font-size:16px;letter-spacing:0}
+.stage{margin:30px 0 8px;position:relative}
+canvas{display:block;width:100%;touch-action:manipulation}
+.status{min-height:28px;text-align:center;font-style:italic;font-size:19px;color:var(--muted);transition:opacity .6s}
+.controls{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:14px}
+button{font-family:Inter,system-ui,sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;background:none;color:var(--ink);border:1px solid var(--faint);padding:12px 16px;border-radius:999px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color .4s,color .4s,opacity .6s}
+button.on{border-color:var(--gold);color:var(--gold)}
+button.hide{opacity:0;pointer-events:none}
+.q{border-left:1px solid var(--gold);padding:2px 0 2px 16px;font-style:italic;font-size:20px;line-height:1.45;margin-top:34px}
+.q .label{display:block;font-style:normal;margin-bottom:8px;color:var(--gold);font-size:10px}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity 1.3s ease,transform 1.3s ease}
+.in .reveal{opacity:1;transform:none}
+.in .d1{transition-delay:.15s}.in .d2{transition-delay:.35s}.in .d3{transition-delay:.55s}.in .d4{transition-delay:.8s}
+.divider{width:1px;height:64px;margin:0 auto;background:linear-gradient(var(--faint),transparent)}
+
+/* hero */
+.hero{text-align:center;align-items:center}
+.hero .sub{font-style:italic;font-size:22px;color:var(--muted);margin-top:18px}
+.cue{margin-top:64px;width:1px;height:56px;background:var(--faint);position:relative;overflow:hidden}
+.cue::after{content:"";position:absolute;left:0;top:-30%;width:1px;height:30%;background:var(--gold);animation:cue 2.4s ease-in-out infinite}
+@keyframes cue{to{top:110%}}
+
+/* week 1 */
+.card{perspective:1400px;margin:30px 0 8px}
+.flip{position:relative;transform-style:preserve-3d;transition:transform 1.8s cubic-bezier(.6,0,.2,1)}
+.card.flipped .flip{transform:rotateY(180deg)}
+.face{background:#16140f;border:1px solid var(--faint);border-radius:2px;padding:26px 24px 22px;backface-visibility:hidden;-webkit-backface-visibility:hidden;position:relative;overflow:hidden}
+.back{position:absolute;inset:0;transform:rotateY(180deg);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:30px;background:#0b0b0b}
+.head{font-family:Inter,sans-serif;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);text-align:center}
+.clause{font-style:italic;color:var(--muted);font-size:16px;margin:18px 0 6px}
+.gives li{list-style:none;color:var(--gold);font-size:20px;line-height:1.5;transition:opacity 1.4s}
+.gives li::before{content:"·";margin-right:10px}
+.gives li.gone{opacity:.07}
+.tree{display:block;width:100%;height:auto;margin:14px 0 4px}
+.fruit{transition:transform 1.3s cubic-bezier(.55,0,.9,.5),opacity 1.6s ease}
+.fruit.fall{transform:translateY(var(--drop));opacity:.12}
+.why li{list-style:none;font-style:italic;font-size:17px;line-height:1.4;margin:8px 0;padding-left:12px;border-left:1px solid var(--faint)}
+.sigline{margin-top:18px;border-top:0}
+.sigline svg{width:80%;height:46px;display:block;border-bottom:1px solid var(--faint);margin-bottom:6px}
+.sig{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round;stroke-dasharray:700;stroke-dashoffset:700;transition:stroke-dashoffset 2.2s ease-in-out,opacity 1.2s}
+.card.signed .sig{stroke-dashoffset:0}
+.card.restored .sig{opacity:.25}
+.void{position:absolute;left:50%;top:44%;font-family:Inter,sans-serif;font-size:30px;letter-spacing:.3em;padding:10px 14px 10px 22px;color:var(--gold);border:2px solid var(--gold);border-radius:3px;opacity:0;transform:translate(-50%,-50%) rotate(-14deg) scale(1.2);transition:opacity 1.2s,transform 1.2s;pointer-events:none;background:rgba(22,20,15,.6)}
+.card.restored .void{opacity:.92;transform:translate(-50%,-50%) rotate(-14deg) scale(1)}
+.nihil{font-size:56px;font-style:italic;color:#8a857d;margin:18px 0 10px;letter-spacing:.01em}
+.nsub{font-size:18px;color:#6d685f;line-height:1.5;max-width:240px}
+.nverse{font-style:italic;font-size:17px;color:#8a857d;margin:26px 0 6px;line-height:1.45}
+/* week 2 */
+.range{display:flex;align-items:center;gap:12px;margin-top:16px}
+.range span{font-family:Inter,sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:28px;background:transparent}
+input[type=range]::-webkit-slider-runnable-track{height:1px;background:var(--faint)}
+input[type=range]::-moz-range-track{height:1px;background:var(--faint)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--bg);border:1px solid var(--water);margin-top:-11px}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--bg);border:1px solid var(--water)}
+
+/* week 4 */
+#words{height:380px;position:relative;overflow:hidden}
+#ring{position:absolute;inset:0}
+#ring.spin{animation:spin 70s linear infinite}
+.slot{position:absolute;left:50%;top:50%;transition:transform 1.6s cubic-bezier(.6,0,.2,1)}
+.word{display:block;transform:translate(-50%,-50%);}
+#ring.spin .word{animation:unspin 70s linear infinite}
+.chip{display:inline-block;font-size:18px;padding:6px 14px;border:1px solid var(--faint);border-radius:999px;white-space:nowrap;transition:color .8s,border-color .8s,opacity .8s,text-decoration-color .8s;text-decoration:line-through;text-decoration-color:transparent;background:var(--bg)}
+.chip.virtue{color:var(--gold);border-color:var(--gold)}
+.chip.vice{color:var(--muted);opacity:.45;text-decoration-color:var(--muted)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes unspin{from{transform:translate(-50%,-50%) rotate(0)}to{transform:translate(-50%,-50%) rotate(-360deg)}}
+#center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:30px;font-style:italic;color:var(--ink);opacity:0;transition:opacity 1.6s ease 1s;pointer-events:none;text-shadow:0 0 28px rgba(200,168,98,.6)}
+#center::before{content:"";position:absolute;left:50%;top:50%;width:150px;height:150px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(rgba(200,168,98,.22),transparent 65%);z-index:-1}
+#words.orbit #center{opacity:1}
+#note{min-height:96px;text-align:center;font-style:italic;font-size:19px;line-height:1.4;color:var(--muted);margin-top:10px;transition:opacity .5s}
+
+.chip{cursor:pointer}
+.chip.sel{box-shadow:0 0 0 4px rgba(200,168,98,.18)}
+#attr{margin-top:22px;opacity:0;transform:translateY(8px);transition:opacity .7s,transform .7s}
+#attr.show{opacity:1;transform:none}
+#attr h3{font-weight:400;font-size:30px;margin-bottom:12px;text-align:center}
+.pair{display:grid;gap:12px}
+.pair>div{padding:14px 16px 12px;border:1px solid var(--faint);border-radius:4px}
+.pair .for{border-color:rgba(200,168,98,.45)}
+.pair .for .label{color:var(--gold)}
+.pair blockquote{font-size:19px;line-height:1.5;margin:8px 0 6px}
+.pair .against blockquote{color:#b9b1a3}
+cite{font-family:Inter,sans-serif;font-size:11px;letter-spacing:.1em;color:var(--muted);font-style:normal}
+.vref{display:block;margin-top:8px;color:var(--ink);font-size:18px}
+
+/* scripture lists */
+.scrips{margin-top:34px}
+.scrips>.label{display:block;color:var(--gold);font-size:10px;margin-bottom:6px}
+details{border-top:1px solid #26231e}
+details:last-child{border-bottom:1px solid #26231e}
+summary{list-style:none;display:flex;align-items:baseline;gap:10px;padding:14px 2px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+summary::-webkit-details-marker{display:none}
+summary b{font-family:Inter,sans-serif;font-weight:500;font-size:11px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+summary small{font-style:italic;font-size:16px;color:var(--muted);flex:1}
+summary::after{content:"+";color:var(--gold);font-family:Inter,sans-serif;font-size:16px;transition:transform .3s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{font-size:19px;line-height:1.55;padding:0 2px 18px;animation:fadein .6s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(-4px)}}
+
+/* finale */
+.finale{text-align:center;align-items:center}
+.fl{font-size:26px;line-height:1.7}
+.fl b{font-weight:400;color:var(--gold);font-size:14px;letter-spacing:.3em;margin-right:12px}
+.converge{width:200px;height:200px;position:relative;margin:48px auto 24px}
+.dot{position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px;border-radius:50%;background:var(--gold);transition:transform 2.2s cubic-bezier(.6,0,.2,1),opacity 1.8s;opacity:0}
+.converge.show .dot{opacity:1}
+.converge.merge .dot{transform:translate(0,0)!important;opacity:.0}
+.core{position:absolute;left:50%;top:50%;width:160px;height:160px;margin:-80px;border-radius:50%;background:radial-gradient(rgba(240,222,178,.9) 0 4%,rgba(200,168,98,.35) 18%,transparent 62%);opacity:0;transform:scale(.3);transition:opacity 2s ease 1.4s,transform 3s ease 1.4s}
+.converge.merge .core{opacity:1;transform:scale(1)}
+.closing{font-style:italic;font-size:24px;opacity:0;transition:opacity 2s ease 2.8s}
+.converge.merge + .closing{opacity:1}
+footer{text-align:center;padding:40px 0 60px;color:var(--faint);font-family:Inter,sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase}
+@media (prefers-reduced-motion:reduce){*{transition-duration:.01s!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<section class="hero" id="top">
+  <p class="label reveal">November 8, 2026</p>
+  <h1 class="reveal d1" style="margin-top:22px">Elders Quorum Discussion</h1>
+  <p class="sub reveal d2">The past five lessons</p>
+  <div class="cue reveal d3"></div>
+</section>
+
+<!-- I -->
+<section id="w1">
+  <p class="num reveal">I</p>
+  <h2 class="reveal d1">You don't know what you have until it's gone.</h2>
+  <p class="lede reveal d2">Don't take the restored gospel for granted. Its fruit is <i>“desirable to make one happy.”</i></p>
+  <p class="ref reveal d3">Shrek · <i>the contract with Rumpelstiltskin</i><br>Elder Gary E. Stevenson · <i>“Fruit to Make One Happy,”</i> Oct. 2026 &nbsp;·&nbsp; 1 Nephi 8:10</p>
+  <div class="card reveal d3" id="card"><div class="flip">
+    <div class="face front">
+      <p class="head">Agreement</p>
+      <svg class="tree" viewBox="0 0 280 132" aria-hidden="true"><defs><radialGradient id="fg"><stop offset="0" stop-color="rgba(246,239,221,.55)"/><stop offset="1" stop-color="rgba(246,239,221,0)"/></radialGradient></defs>
+        <g fill="none" stroke="#5e584e" stroke-width="1.1" stroke-linecap="round"><path d="M140 128 C138 105 142 90 140 72"/><path d="M140 94 C122 82 98 72 64 64"/><path d="M140 88 C160 78 190 70 226 62"/><path d="M140 72 C134 54 118 38 96 26"/><path d="M140 72 C146 58 152 52 150 46"/><path d="M140 76 C156 56 176 36 196 24"/><path d="M64 64 C54 60 46 60 40 62"/><path d="M226 62 C234 58 242 58 248 60"/></g>
+        <line x1="40" y1="128" x2="240" y2="128" stroke="#3a362f"/><g class="fruit" style="--drop:60px"><circle cx="58" cy="64" r="13" fill="url(#fg)"/><circle cx="58" cy="64" r="4.5" fill="#f6efdd"/></g><g class="fruit" style="--drop:98px"><circle cx="96" cy="26" r="13" fill="url(#fg)"/><circle cx="96" cy="26" r="4.5" fill="#f6efdd"/></g><g class="fruit" style="--drop:78px"><circle cx="150" cy="46" r="13" fill="url(#fg)"/><circle cx="150" cy="46" r="4.5" fill="#f6efdd"/></g><g class="fruit" style="--drop:100px"><circle cx="196" cy="24" r="13" fill="url(#fg)"/><circle cx="196" cy="24" r="4.5" fill="#f6efdd"/></g><g class="fruit" style="--drop:62px"><circle cx="228" cy="62" r="13" fill="url(#fg)"/><circle cx="228" cy="62" r="4.5" fill="#f6efdd"/></g></svg>
+      <p class="clause">I hereby give up the fruit of the tree:</p>
+      <ul class="gives"><li>Living prophets</li><li>Priesthood power</li><li>Temples &amp; covenants</li><li>Eternal families</li><li>The Book of Mormon</li></ul>
+      <p class="clause">My reasons:</p>
+      <ul class="why"><li>So my life can look like my favorite influencer’s…</li><li>Because I can’t reconcile some modern controversial topic…</li><li>Because I want fewer restrictions in my life…</li></ul>
+      <div class="sigline"><svg viewBox="0 0 280 50" preserveAspectRatio="xMinYMid meet"><path class="sig" d="M8 35 C16 7 30 7 26 27 C22 47 40 41 50 17 C56 3 62 23 66 33 C72 45 82 13 90 17 C98 21 92 39 104 35 C120 29 126 5 134 13 C142 23 136 41 152 31 C168 21 178 11 192 23 C202 31 212 21 222 17"/></svg><span class="head" style="text-align:left">Signed</span></div>
+      <div class="void">VOID</div>
+    </div>
+    <div class="face back">
+      <p class="head">In exchange, you receive</p>
+      <p class="nihil">Nihilism.</p>
+      <p class="nsub">No purpose before you. No covenant beside you. Nothing after you.</p>
+      <p class="nverse">“Vanity of vanities, saith the Preacher, vanity of vanities; all is vanity.”</p>
+      <cite>Ecclesiastes 1:2</cite>
+    </div>
+  </div></div>
+  <p class="status" id="s1"></p>
+  <div class="controls"><button id="b1" class="hide">Restore</button></div>
+  <div class="q reveal"><span class="label">Reflect</span>What would your week look like without the restoration?</div>
+  <div class="scrips reveal" data-w="w1"><span class="label">Scriptures for discussion</span></div>
+</section>
+<div class="divider"></div>
+
+<!-- II -->
+<section id="w2">
+  <p class="num reveal">II</p>
+  <h2 class="reveal d1">Surrounded is not the same as soaked.</h2>
+  <p class="lede reveal d2">We're surrounded by the gospel, like a rock in a fountain. How many of us have let the water past the surface?</p>
+  <p class="ref reveal d3">The Godfather Part III</p>
+  <div class="stage reveal d3"><canvas id="c2"></canvas></div>
+  <div class="range reveal d3"><span>Around me</span><input id="r2" type="range" min="0" max="100" value="0" aria-label="How far the water penetrates"><span>In me</span></div>
+  <p class="status" id="s2" style="margin-top:10px">The water only touches the surface.</p>
+  <div class="q reveal"><span class="label">Reflect</span>Where is the water flowing around you instead of into you?</div>
+  <div class="scrips reveal" data-w="w2"><span class="label">Scriptures for discussion</span></div>
+</section>
+<div class="divider"></div>
+
+<!-- III -->
+<section id="w3">
+  <p class="num reveal">III</p>
+  <h2 class="reveal d1">Ambition above the Kingdom is the original sin.</h2>
+  <p class="lede reveal d2">Personal ambition that takes precedence over God's kingdom is Satanic. It was Lucifer's sin: <i>“I will be like the most High.”</i></p>
+  <p class="ref reveal d3">Kung Fu Panda · <i>Tai Lung, denied the Dragon Warrior</i> &nbsp;·&nbsp; Isaiah 14:14</p>
+  <div class="stage reveal d3"><canvas id="c3"></canvas></div>
+  <p class="status" id="s3"></p>
+  <div class="controls"><button id="b3" class="hide">Replay</button></div>
+  <div class="q reveal"><span class="label">Reflect</span>Is there an ambition of mine I'd be bitter to lose — even if God asked?</div>
+  <div class="scrips reveal" data-w="w3"><span class="label">Scriptures for discussion</span></div>
+</section>
+<div class="divider"></div>
+
+<!-- IV -->
+<section id="w4">
+  <p class="num reveal">IV</p>
+  <h2 class="reveal d1">There is no Christlike attribute. There is only Christ.</h2>
+  <p class="lede reveal d2">Every attribute depends on its context — even the official ones.</p>
+  <p class="ref reveal d3">Christlike attributes · <i>Preach My Gospel, chapter 6</i> &nbsp;+&nbsp; one more</p>
+  <div class="stage reveal d3" id="words"><div id="ring"></div><div id="center">Christ</div></div>
+  <p id="note">Tap any word to see it both ways.</p>
+  <div id="attr"></div>
+  <div class="q reveal"><span class="label">Reflect</span>Which “virtue” do I practice out of habit rather than out of Him?</div>
+  <div class="scrips reveal" data-w="w4"><span class="label">Scriptures for discussion</span></div>
+</section>
+<div class="divider"></div>
+
+<!-- V -->
+<section id="w5">
+  <p class="num reveal">V</p>
+  <h2 class="reveal d1">None of us live in silos.</h2>
+  <p class="lede reveal d2">Christ was born in the East. The West thinks in individuals; the East in families and peoples. Our choices reach those around us — and those after us.</p>
+  <p class="ref reveal d3"><i>“For none of us liveth to himself.”</i> &nbsp;Romans 14:7</p>
+  <div class="stage reveal d3"><canvas id="c5"></canvas></div>
+  <p class="status" id="s5">Tap to make one choice.</p>
+  <div class="controls"><button id="b5">Make one choice</button></div>
+  <div class="q reveal"><span class="label">Reflect</span>Who downstream of me will inherit what I choose this week?</div>
+  <div class="scrips reveal" data-w="w5"><span class="label">Scriptures for discussion</span></div>
+</section>
+<div class="divider"></div>
+
+<section class="finale" id="fin">
+  <p class="label reveal">Five lessons</p>
+  <div style="margin-top:26px">
+    <p class="fl reveal d1"><b>I</b>Value it.</p>
+    <p class="fl reveal d1"><b>II</b>Let it in.</p>
+    <p class="fl reveal d2"><b>III</b>Get out of the center.</p>
+    <p class="fl reveal d3"><b>IV</b>Put Him in the center.</p>
+    <p class="fl reveal d4"><b>V</b>Look around.</p>
+  </div>
+  <div class="converge" id="conv"><div class="core"></div></div>
+  <p class="closing">One center.</p>
+</section>
+<footer>Elders Quorum · November 8, 2026</footer>
+
+<script>
+const $=s=>document.querySelector(s);
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const vis={};
+const hooks={};
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  const id=e.target.id; vis[id]=e.isIntersecting;
+  if(e.isIntersecting){e.target.classList.add('in'); if(hooks[id]&&!hooks[id].done){hooks[id].done=true;hooks[id]();}}
+}),{threshold:.25});
+document.querySelectorAll('section').forEach(s=>io.observe(s));
+
+function fit(c,h){const d=Math.min(devicePixelRatio||1,2);const w=c.clientWidth;c.width=w*d;c.height=h*d;c.style.height=h+'px';const x=c.getContext('2d');x.setTransform(d,0,0,d,0,0);return w;}
+const lerp=(a,b,t)=>a+(b-a)*t;
+const mix=(a,b,t)=>'rgb('+a.map((v,i)=>Math.round(lerp(v,b[i],t))).join(',')+')';
+function rng(s){return()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+
+/* ---------- I : contract ---------- */
+(()=>{
+  const card=$('#card'),st=$('#s1'),b=$('#b1'),gives=[...document.querySelectorAll('.gives li')],fruit=[...document.querySelectorAll('.fruit')];
+  let timers=[];const later=(f,ms)=>timers.push(setTimeout(f,ms));
+  function run(){
+    timers.forEach(clearTimeout);timers=[];
+    card.classList.remove('signed','restored','flipped');gives.forEach(g=>g.classList.remove('gone'));fruit.forEach(f=>f.classList.remove('fall'));
+    b.classList.add('hide');st.textContent='';
+    later(()=>{st.textContent='Just sign here.';card.classList.add('signed')},900);
+    later(()=>st.textContent='',3200);
+    gives.forEach((g,i)=>later(()=>{g.classList.add('gone');fruit[i].classList.add('fall')},3600+i*550));
+    const flipAt=3600+gives.length*550+700;
+    later(()=>{card.classList.add('flipped');st.textContent='And in exchange…'},flipAt);
+    later(()=>{b.textContent='Restore';b.classList.remove('hide')},flipAt+2600);
+  }
+  b.onclick=()=>{
+    if(card.classList.contains('restored'))return run();
+    timers.forEach(clearTimeout);timers=[];
+    card.classList.remove('flipped');st.textContent='';
+    gives.forEach((g,i)=>later(()=>{g.classList.remove('gone');fruit[i].classList.remove('fall')},1700+i*160));
+    later(()=>{card.classList.add('restored');st.textContent='Restored.';b.textContent='Replay'},2400);
+  };
+  hooks.w1=run;
+})();
+
+/* ---------- II : fountain ---------- */
+(()=>{
+  const c=$('#c2'),x=c.getContext('2d'),H=330;let W=fit(c,H);
+  let sat=0,wet=0,ps=[],shape=[];
+  const r=rng(7);for(let i=0;i<22;i++)shape.push(.9+r()*.14);
+  addEventListener('resize',()=>W=fit(c,H));
+  const msg=$('#s2');
+  $('#r2').oninput=e=>{sat=e.target.value/100;msg.textContent=sat<.15?'The water only touches the surface.':sat<.7?'It is beginning to soak in.':'It has changed the stone itself.'};
+  function rock(cx,cy,R,path){x.beginPath();shape.forEach((k,i)=>{const a=i/shape.length*Math.PI*2;const px=cx+Math.cos(a)*R*k*1.15,py=cy+Math.sin(a)*R*k*.86;i?x.lineTo(px,py):x.moveTo(px,py)});x.closePath();}
+  function frame(){
+    requestAnimationFrame(frame);
+    if(!vis.w2)return;
+    const cx=W/2,cy=H*.6,R=Math.min(W*.2,66);
+    for(let k=0;k<4;k++)ps.push({x:cx+(Math.random()-.5)*R*2.6,y:-4,vx:(Math.random()-.5)*.6,vy:1.4+Math.random(),px:0,py:0,in:false,d:null,life:1});
+    wet+=(sat-wet)*.012;
+    x.fillStyle='rgba(15,14,12,.32)';x.fillRect(0,0,W,H);
+    // rock
+    rock(cx,cy,R);
+    const gr=x.createRadialGradient(cx-R*.35,cy-R*.4,R*.1,cx,cy,R*1.25);
+    gr.addColorStop(0,mix([108,102,92],[110,146,170],wet));gr.addColorStop(1,mix([38,35,31],[22,38,50],wet));
+    x.fillStyle=gr;x.fill();
+    if(wet>.05){x.save();rock(cx,cy,R);x.clip();const g2=x.createRadialGradient(cx,cy,0,cx,cy,R*1.2);g2.addColorStop(0,`rgba(134,163,184,${wet*.55})`);g2.addColorStop(1,'rgba(134,163,184,0)');x.fillStyle=g2;x.fillRect(cx-R*1.3,cy-R,R*2.6,R*2);x.restore();}
+    // pool
+    x.fillStyle='rgba(134,163,184,.08)';x.fillRect(0,H-14,W,14);
+    ps=ps.filter(p=>p.y<H+6&&p.life>0);
+    for(const p of ps){
+      p.px=p.x;p.py=p.y;
+      if(!p.in){
+        p.vy+=.07;p.x+=p.vx;p.y+=p.vy;
+        const dx=(p.x-cx)/1.1,dy=(p.y-cy)/.86,d=Math.hypot(dx,dy);
+        if(d<R){
+          if(p.d===null)p.d=Math.random()<sat;
+          if(p.d){p.in=true;p.vx*=.3;p.vy*=.25;}
+          else{const nx=dx/d,ny=dy/d;p.x=cx+nx*R*1.1;p.y=cy+ny*R*.86;const dot=p.vx*nx+p.vy*ny;if(dot<0){p.vx-=dot*nx*1.05;p.vy-=dot*ny*1.05;}if(Math.abs(nx)<.15)p.vx+=(Math.random()-.5)*.8;}
+        }
+      }else{p.x+=p.vx;p.y+=p.vy;p.vx*=.93;p.vy*=.93;p.life-=.014;}
+      x.strokeStyle=`rgba(150,180,200,${p.in?.6*p.life:.6})`;x.lineWidth=1.2;
+      x.beginPath();x.moveTo(p.px,p.py);x.lineTo(p.x,p.y);x.stroke();
+    }
+  }
+  frame();
+})();
+
+/* ---------- III : the falling star ---------- */
+(()=>{
+  const c=$('#c3'),x=c.getContext('2d'),H=360;let W=fit(c,H);
+  addEventListener('resize',()=>{W=fit(c,H);stars=mk()});
+  const st=$('#s3'),b=$('#b3');
+  const mk=()=>{const r=rng(3);return Array.from({length:46},()=>({x:r()*W,y:r()*H*.8,s:r()*1.2+.3,p:r()*6}))};
+  let stars=mk(),t0=null,trail=[];
+  const q=(a,b,c,t)=>(1-t)*(1-t)*a+2*(1-t)*t*b+t*t*c;
+  const lines=[[0,'“I will ascend into heaven…”'],[2700,'“…I will exalt my throne above the stars of God.”'],[4600,'“Yet thou shalt be brought down.”'],[7600,'Isaiah 14:13–15']];
+  function start(){t0=performance.now();trail=[];b.classList.add('hide');}
+  b.onclick=start;hooks.w3=start;
+  function frame(now){
+    requestAnimationFrame(frame);
+    if(!vis.w3)return;
+    x.clearRect(0,0,W,H);
+    const T=now/1000;
+    for(const s of stars){x.fillStyle=`rgba(235,229,216,${.25+.2*Math.sin(T*.8+s.p)})`;x.beginPath();x.arc(s.x,s.y,s.s,0,7);x.fill();}
+    const cx=W/2,cy=H*.42,pr=64+Math.sin(T*1.2)*4;
+    let g=x.createRadialGradient(cx,cy,0,cx,cy,pr*1.6);
+    g.addColorStop(0,'rgba(255,246,222,1)');g.addColorStop(.08,'rgba(240,220,170,.9)');g.addColorStop(.35,'rgba(200,168,98,.22)');g.addColorStop(1,'rgba(200,168,98,0)');
+    x.fillStyle=g;x.beginPath();x.arc(cx,cy,pr*1.6,0,7);x.fill();
+    if(t0===null)return;
+    const t=now-t0;let px,py,sz,col,glow;
+    if(t<3000){const k=t/3000,e=k*k*(3-2*k);px=q(W*.16,W*.18,W*.6,e);py=q(H*.94,H*.2,H*.1,e);sz=lerp(1.5,5,e);col=[255,240,210];glow=lerp(8,30,e);}
+    else if(t<4400){px=W*.6+(Math.random()-.5)*2.4;py=H*.1+(Math.random()-.5)*2.4;sz=5+Math.random()*1.4;col=[255,236,200];glow=30+Math.random()*14;}
+    else if(t<6200){const k=(t-4400)/1800,e=k*k*k;px=q(W*.6,W*.82,W*.84,e);py=q(H*.1,H*.12,H*.95,e);sz=lerp(5,1.8,e);col=[lerp(255,120,e),lerp(236,80,e),lerp(200,60,e)];glow=lerp(30,6,e);}
+    else{const k=Math.min((t-6200)/3000,1);px=W*.84;py=H*.95;sz=1.8;col=[120,80,60];glow=6*(1-k)+2;}
+    trail.push([px,py]);if(trail.length>46)trail.shift();
+    trail.forEach(([a,b2],i)=>{x.fillStyle=`rgba(${col.map(Math.round).join(',')},${i/trail.length*.35})`;x.beginPath();x.arc(a,b2,sz*.5*i/trail.length,0,7);x.fill();});
+    g=x.createRadialGradient(px,py,0,px,py,glow);g.addColorStop(0,`rgba(${col.map(Math.round).join(',')},.95)`);g.addColorStop(1,`rgba(${col.map(Math.round).join(',')},0)`);
+    x.fillStyle=g;x.beginPath();x.arc(px,py,glow,0,7);x.fill();
+    x.fillStyle=`rgb(${col.map(Math.round).join(',')})`;x.beginPath();x.arc(px,py,sz*.6,0,7);x.fill();
+    let line='';for(const [ms,l] of lines)if(t>=ms)line=l;
+    if(st.textContent!==line)st.textContent=line;
+    if(t>7600)b.classList.remove('hide');
+  }
+  requestAnimationFrame(frame);
+})();
+
+/* ---------- IV : context ---------- */
+(()=>{
+  const words=['Faith','Hope','Charity','Virtue','Knowledge','Patience','Humility','Diligence','Obedience','Violence'];
+  const both={
+    Faith:[['“But without faith it is impossible to please him: for he that cometh to God must believe that he is, and that he is a rewarder of them that diligently seek him.”','Hebrews 11:6'],['“And called on the name of Baal from morning even until noon, saying, O Baal, hear us. But there was no voice, nor any that answered.”','1 Kings 18:26']],
+    Hope:[['“Now the God of hope fill you with all joy and peace in believing, that ye may abound in hope, through the power of the Holy Ghost.”','Romans 15:13'],['“If in this life only we have hope in Christ, we are of all men most miserable.”','1 Corinthians 15:19']],
+    Charity:[['“Charity suffereth long, and is kind; charity envieth not; charity vaunteth not itself, is not puffed up.”','1 Corinthians 13:4'],['“Therefore when thou doest thine alms, do not sound a trumpet before thee, as the hypocrites do… that they may have glory of men. Verily I say unto you, They have their reward.”','Matthew 6:2']],
+    Virtue:[['“Whatsoever things are pure, whatsoever things are lovely, whatsoever things are of good report; if there be any virtue, and if there be any praise, think on these things.”','Philippians 4:8'],['“The Pharisee stood and prayed thus with himself, God, I thank thee, that I am not as other men are.”','Luke 18:11']],
+    Knowledge:[['“And this is life eternal, that they might know thee the only true God, and Jesus Christ, whom thou hast sent.”','John 17:3'],['“Knowledge puffeth up, but charity edifieth.”','1 Corinthians 8:1']],
+    Patience:[['“But let patience have her perfect work, that ye may be perfect and entire, wanting nothing.”','James 1:4'],['“Because his sons made themselves vile, and he restrained them not.”','1 Samuel 3:13 · Eli']],
+    Humility:[['“Whosoever therefore shall humble himself as this little child, the same is greatest in the kingdom of heaven.”','Matthew 18:4'],['“O my Lord, send, I pray thee, by the hand of him whom thou wilt send. And the anger of the LORD was kindled against Moses.”','Exodus 4:13–14']],
+    Diligence:[['“Seest thou a man diligent in his business? he shall stand before kings.”','Proverbs 22:29'],['“Martha, Martha, thou art careful and troubled about many things: but one thing is needful.”','Luke 10:41–42']],
+    Obedience:[['“Behold, to obey is better than sacrifice, and to hearken than the fat of rams.”','1 Samuel 15:22'],['“Then Peter and the other apostles answered and said, We ought to obey God rather than men.”','Acts 5:29']],
+    Violence:[['“And when he had made a scourge of small cords, he drove them all out of the temple… and poured out the changers’ money, and overthrew the tables.”','John 2:15'],['“Put up again thy sword into his place: for all they that take the sword shall perish with the sword.”','Matthew 26:52']]
+  };
+
+  const attr=$('#attr');
+  function showAttr(w,chip){
+    document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('sel',c===chip));
+    const [f,a]=both[w];attr.classList.remove('show');
+    setTimeout(()=>{attr.innerHTML=`<h3>${w}</h3><div class="pair"><div class="for"><span class="label">In Christ</span><blockquote>${f[0]}</blockquote><cite>${f[1]}</cite></div><div class="against"><span class="label">Apart from Him</span><blockquote>${a[0]}</blockquote><cite>${a[1]}</cite></div></div>`;attr.classList.add('show');},250);
+  }
+  const ring=$('#ring'),box=$('#words'),note=$('#note');
+  const slots=words.map(w=>{const s=document.createElement('div');s.className='slot';s.innerHTML=`<span class="word"><span class="chip">${w}</span></span>`;ring.appendChild(s);const ch=s.querySelector('.chip');ch.onclick=()=>showAttr(w,ch);return s;});
+  let mode='grid';
+  function place(){
+    const W=box.clientWidth,H=box.clientHeight;
+    slots.forEach((s,i)=>{let X,Y;
+      if(mode==='grid'){X=(i%2?1:-1)*Math.min(W*.24,118);Y=(Math.floor(i/2)-2)*64;}
+      else{const a=i/words.length*Math.PI*2-Math.PI/2;X=Math.cos(a)*(W/2-56);Y=Math.sin(a)*(H/2-26);}
+      s.style.transform=`translate(${X}px,${Y}px)`;});
+  }
+  place();addEventListener('resize',place);
+  hooks.w4=()=>setTimeout(()=>{mode='orbit';box.classList.add('orbit');slots.forEach(sl=>sl.querySelector('.chip').classList.add('virtue'));place();
+    note.style.opacity=0;setTimeout(()=>{note.innerHTML='Tap any word to see it both ways.<span class="vref">“And he is before all things, and by him all things consist.”</span><cite>Colossians 1:17</cite>';note.style.opacity=1},600);
+    setTimeout(()=>ring.classList.add('spin'),1700);},2600);
+})();
+
+/* ---------- V : ripples ---------- */
+(()=>{
+  const c=$('#c5'),x=c.getContext('2d'),H=360;let W=fit(c,H),N,E,t0=null;
+  const st=$('#s5'),b=$('#b5');
+  function build(){
+    const r=rng(11);N=[];E=[];
+    const you={x:W/2,y:62,r:5,t:0,you:true};N.push(you);
+    const peers=[],g1=[],g2=[];
+    for(let i=0;i<9;i++){if(i===4)continue;const n={x:22+(W-44)*i/8+(r()-.5)*14,y:34+r()*66,r:3.2};peers.push(n);}
+    for(let i=0;i<7;i++)g1.push({x:30+(W-60)*i/6+(r()-.5)*16,y:196+(r()-.5)*26,r:2.8});
+    for(let i=0;i<11;i++)g2.push({x:18+(W-36)*i/10+(r()-.5)*12,y:298+(r()-.5)*26,r:2.2});
+    peers.forEach(p=>{p.t=Math.hypot(p.x-you.x,p.y-you.y)*3.2;E.push([you,p]);});
+    const near=(n,arr,k)=>arr.slice().sort((a,b)=>Math.abs(a.x-n.x)-Math.abs(b.x-n.x)).slice(0,k);
+    g1.forEach(n=>{const ps=near(n,peers,2);ps.forEach(p=>E.push([p,n]));n.t=Math.min(...ps.map(p=>p.t))+1100;});
+    g2.forEach(n=>{const ps=near(n,g1,2);ps.forEach(p=>E.push([p,n]));n.t=Math.min(...ps.map(p=>p.t))+1100;});
+    N.push(...peers,...g1,...g2);
+  }
+  build();addEventListener('resize',()=>{W=fit(c,H);build();});
+  function go(){t0=performance.now();b.classList.add('hide');st.textContent='';}
+  b.onclick=go;c.onclick=go;
+  function frame(now){
+    requestAnimationFrame(frame);
+    if(!vis.w5)return;
+    x.clearRect(0,0,W,H);
+    const t=t0===null?-1:now-t0,T=now/1000;
+    x.font='500 9px Inter,sans-serif';x.fillStyle='#5a544a';
+    x.fillText('A R O U N D   Y O U',0,14);x.fillText('A F T E R   Y O U',0,160);
+    x.strokeStyle='#26231e';x.beginPath();x.moveTo(0,146);x.lineTo(W,146);x.stroke();
+    if(t>=0){
+      for(const [a,bn] of E){const span=bn.t-a.t,k=Math.max(0,Math.min(1,(t-a.t)/span));if(k<=0)continue;
+        x.strokeStyle='rgba(200,168,98,.35)';x.lineWidth=1;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(lerp(a.x,bn.x,k),lerp(a.y,bn.y,k));x.stroke();}
+      if(t<2400){const R=t*.22,al=1-t/2400;x.strokeStyle=`rgba(200,168,98,${al*.6})`;x.beginPath();x.arc(W/2,62,R,0,7);x.stroke();}
+    }
+    for(const n of N){
+      let a=.13,col='235,229,216';
+      if(n.you){a=.85+.15*Math.sin(T*2);col='200,168,98';}
+      else if(t>=n.t){a=.13+.8*Math.min(1,(t-n.t)/500);col='200,168,98';}
+      if(a>.3){const g=x.createRadialGradient(n.x,n.y,0,n.x,n.y,n.r*4);g.addColorStop(0,`rgba(${col},${a*.4})`);g.addColorStop(1,`rgba(${col},0)`);x.fillStyle=g;x.beginPath();x.arc(n.x,n.y,n.r*4,0,7);x.fill();}
+      x.fillStyle=`rgba(${col},${a})`;x.beginPath();x.arc(n.x,n.y,n.r,0,7);x.fill();
+    }
+    x.fillStyle='rgba(235,229,216,.7)';x.font='italic 15px "Cormorant Garamond",serif';x.textAlign='center';x.fillText('you',W/2,90);x.textAlign='left';
+    const last=Math.max(...N.map(n=>n.t||0));
+    if(t>last+600&&b.classList.contains('hide')){st.textContent='One choice. Many lives.';b.textContent='Again';b.classList.remove('hide');}
+  }
+  requestAnimationFrame(frame);
+})();
+
+/* ---------- scriptures ---------- */
+(()=>{
+  const S={
+    w1:[
+      ['1 Nephi 8:10–12','Fruit to make one happy','And it came to pass that I beheld a tree, whose fruit was desirable to make one happy. And it came to pass that I did go forth and partake of the fruit thereof; and I beheld that it was most sweet, above all that I ever before tasted. Yea, and I beheld that the fruit thereof was white, to exceed all the whiteness that I had ever seen. And as I partook of the fruit thereof it filled my soul with exceedingly great joy; wherefore, I began to be desirous that my family should partake of it also; for I knew that it was desirable above all other fruit.'],
+      ['1 Nephi 8:26–28','The great and spacious building','And I also cast my eyes round about, and beheld, on the other side of the river of water, a great and spacious building; and it stood as it were in the air, high above the earth. And it was filled with people, both old and young, both male and female; and their manner of dress was exceedingly fine; and they were in the attitude of mocking and pointing their fingers towards those who had come at and were partaking of the fruit. And after they had partaken of the fruit they were ashamed, because of those that were scoffing at them; and they fell away into forbidden paths and were lost.'],
+      ['Genesis 25:34','Esau and the pottage','Then Jacob gave Esau bread and pottage of lentiles; and he did eat and drink, and rose up, and went his way: thus Esau despised his birthright.'],
+      ['Hebrews 12:16–17','No place of repentance','Lest there be any fornicator, or profane person, as Esau, who for one morsel of meat sold his birthright. For ye know how that afterward, when he would have inherited the blessing, he was rejected: for he found no place of repentance, though he sought it carefully with tears.'],
+      ['Amos 8:11','A famine of the word','Behold, the days come, saith the Lord GOD, that I will send a famine in the land, not a famine of bread, nor a thirst for water, but of hearing the words of the LORD.'],
+      ['Luke 15:17','When he came to himself','And when he came to himself, he said, How many hired servants of my father’s have bread enough and to spare, and I perish with hunger!'],
+      ['Revelation 2:4','First love','Nevertheless I have somewhat against thee, because thou hast left thy first love.'],
+      ['Matthew 13:44','Treasure in a field','Again, the kingdom of heaven is like unto treasure hid in a field; the which when a man hath found, he hideth, and for joy thereof goeth and selleth all that he hath, and buyeth that field.']
+    ],
+    w2:[
+      ['Ezekiel 36:26','A heart of stone','A new heart also will I give you, and a new spirit will I put within you: and I will take away the stony heart out of your flesh, and I will give you an heart of flesh.'],
+      ['John 4:14','Water within','But whosoever drinketh of the water that I shall give him shall never thirst; but the water that I shall give him shall be in him a well of water springing up into everlasting life.'],
+      ['Matthew 13:5–6','Stony places','Some fell upon stony places, where they had not much earth: and forthwith they sprung up, because they had no deepness of earth: and when the sun was up, they were scorched; and because they had no root, they withered away.'],
+      ['Matthew 15:8','Lips, not heart','This people draweth nigh unto me with their mouth, and honoureth me with their lips; but their heart is far from me.'],
+      ['James 1:22–24','Hearers only','But be ye doers of the word, and not hearers only, deceiving your own selves. For if any be a hearer of the word, and not a doer, he is like unto a man beholding his natural face in a glass: for he beholdeth himself, and goeth his way, and straightway forgetteth what manner of man he was.'],
+      ['Jeremiah 31:33','Written in the heart','But this shall be the covenant that I will make with the house of Israel; After those days, saith the LORD, I will put my law in their inward parts, and write it in their hearts; and will be their God, and they shall be my people.']
+    ],
+    w3:[
+      ['Isaiah 14:12–15','Son of the morning','How art thou fallen from heaven, O Lucifer, son of the morning! how art thou cut down to the ground, which didst weaken the nations! For thou hast said in thine heart, I will ascend into heaven, I will exalt my throne above the stars of God: I will sit also upon the mount of the congregation, in the sides of the north: I will ascend above the heights of the clouds; I will be like the most High. Yet thou shalt be brought down to hell, to the sides of the pit.'],
+      ['Genesis 11:4','Make us a name','And they said, Go to, let us build us a city and a tower, whose top may reach unto heaven; and let us make us a name, lest we be scattered abroad upon the face of the whole earth.'],
+      ['Hebrews 12:15','Root of bitterness','Looking diligently lest any man fail of the grace of God; lest any root of bitterness springing up trouble you, and thereby many be defiled.'],
+      ['Matthew 6:33','Seek ye first','But seek ye first the kingdom of God, and his righteousness; and all these things shall be added unto you.'],
+      ['Matthew 20:26–27','Great among you','But it shall not be so among you: but whosoever will be great among you, let him be your minister; and whosoever will be chief among you, let him be your servant.'],
+      ['Philippians 2:5–7','No reputation','Let this mind be in you, which was also in Christ Jesus: who, being in the form of God, thought it not robbery to be equal with God: but made himself of no reputation, and took upon him the form of a servant, and was made in the likeness of men.'],
+      ['Luke 22:42','Not my will','Saying, Father, if thou be willing, remove this cup from me: nevertheless not my will, but thine, be done.']
+    ],
+    w4:[
+      ['John 15:5','Without me, nothing','I am the vine, ye are the branches: He that abideth in me, and the same bringeth forth much fruit: for without me ye can do nothing.'],
+      ['Colossians 1:17','All things consist','And he is before all things, and by him all things consist.'],
+      ['John 14:6','The way','Jesus saith unto him, I am the way, the truth, and the life: no man cometh unto the Father, but by me.'],
+      ['Ecclesiastes 3:1','A season','To every thing there is a season, and a time to every purpose under the heaven.'],
+      ['Isaiah 5:20','Evil good, good evil','Woe unto them that call evil good, and good evil; that put darkness for light, and light for darkness; that put bitter for sweet, and sweet for bitter!']
+    ],
+    w5:[
+      ['Romans 14:7–8','Unto the Lord','For none of us liveth to himself, and no man dieth to himself. For whether we live, we live unto the Lord; and whether we die, we die unto the Lord: whether we live therefore, or die, we are the Lord’s.'],
+      ['1 Corinthians 6:19–20','Ye are not your own','What? know ye not that your body is the temple of the Holy Ghost which is in you, which ye have of God, and ye are not your own? For ye are bought with a price: therefore glorify God in your body, and in your spirit, which are God’s.'],
+      ['1 Corinthians 12:26','One body','And whether one member suffer, all the members suffer with it; or one member be honoured, all the members rejoice with it.'],
+      ['Joshua 22:20','Achan perished not alone','Did not Achan the son of Zerah commit a trespass in the accursed thing, and wrath fell on all the congregation of Israel? and that man perished not alone in his iniquity.'],
+      ['Exodus 20:5–6','Unto the generations','For I the LORD thy God am a jealous God, visiting the iniquity of the fathers upon the children unto the third and fourth generation of them that hate me; and shewing mercy unto thousands of them that love me, and keep my commandments.'],
+      ['Genesis 4:9','My brother’s keeper','And the LORD said unto Cain, Where is Abel thy brother? And he said, I know not: Am I my brother’s keeper?'],
+      ['Galatians 6:2','One another’s burdens','Bear ye one another’s burdens, and so fulfil the law of Christ.']
+    ]
+  };
+  document.querySelectorAll('.scrips').forEach(el=>{
+    el.insertAdjacentHTML('beforeend',S[el.dataset.w].map(([r,h,t])=>`<details><summary><b>${r}</b><small>${h}</small></summary><p>${t}</p></details>`).join(''));
+  });
+})();
+
+/* ---------- finale ---------- */
+(()=>{
+  const cv=$('#conv');
+  for(let i=0;i<5;i++){const d=document.createElement('div');d.className='dot';const a=i/5*Math.PI*2-Math.PI/2;d.style.transform=`translate(${Math.cos(a)*80}px,${Math.sin(a)*80}px)`;d.style.transitionDelay=`${i*.12}s`;cv.appendChild(d);}
+  hooks.fin=()=>{setTimeout(()=>cv.classList.add('show'),1400);setTimeout(()=>cv.classList.add('merge'),3400);};
+})();
+</script>
+</body>
+</html>
